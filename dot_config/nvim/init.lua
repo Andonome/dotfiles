@@ -65,8 +65,17 @@ vim.opt.scrolloff = 10
 
 -- [[ Keymaps ]]
 vim.keymap.set('n', 'U', '<C-r>')               -- undo / redo
-vim.keymap.set('n', '<C-a>', '<cmd>w<cr><esc>') -- save
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Neogit
+-- local neogit = require('neogit')
+vim.keymap.set('n', '<leader>gs', ':Neogit<CR>')
+vim.keymap.set('n', '<leader>gc', ':Neogit commit<CR>')
+vim.keymap.set('n', '<leader>gp', ':Neogit pull<CR>')
+vim.keymap.set('n', '<leader>gP', ':Neogit push<CR>')
+vim.keymap.set('n', '<leader>gb', ':Telescope git_branches<CR>')
+vim.keymap.set('n', '<leader>gB', ':G blame<CR>')
+
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>dt', function()
@@ -84,18 +93,10 @@ vim.api.nvim_set_keymap('n', '[n', ':lua vim.diagnostic.goto_next()<CR>', { nore
 -- one at a time in the floating window)
 vim.api.nvim_set_keymap('n', '[p', ':lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
 
---  Use CTRL+<hjkl> to switch between windows
---  See `:help wincmd` for a list of all window commands
--- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
--- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
--- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 vim.keymap.set('n', '<leader>w', '<cmd>WorkspacesOpen<CR>')
--- Programming Keymaps
---vim.keymap.set('n', '<leader>R', '<cmd>!zig build<CR>')
---vim.keymap.set('n', '<leader>aa', '<cmd>CodeCompanionChat Toggle<CR>')
---vim.keymap.set('v', '<leader>at', ":<C-u>'<,'>CodeCompanion ", { noremap = true, silent = true })
+
+
+
 -- [[ Autocommands ]]
 
 -- Highlight when yanking (copying) text
@@ -109,28 +110,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.o.winborder = 'rounded'
--- by default lsp config sets K in normal mode to hover with no border
--- https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#configuration
--- manually overriding the mapping passing in the border style
-vim.keymap.set({ "n" }, "K", function()
-  vim.lsp.buf.hover { border = "rounded" }
-end, { desc = "LSP show details", silent = true })
+-- vim.o.winborder = 'rounded'
+-- -- by default lsp config sets K in normal mode to hover with no border
+-- -- https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#configuration
+-- -- manually overriding the mapping passing in the border style
+-- vim.keymap.set({ "n" }, "K", function()
+--   vim.lsp.buf.hover { border = "rounded" }
+-- end, { desc = "LSP show details", silent = true })
 
 -- sets border for diagnostics and opens them on jump in a floating window
-vim.diagnostic.config {
-  jump = {
-    float = true,
-  },
-  float = {
-    border = "rounded",
-  },
-}
+-- vim.diagnostic.config {
+--   jump = {
+--     float = true,
+--   },
+--   float = {
+--     border = "rounded",
+--   },
+-- }
+
+
+
 -- LSP
--- checkhealth lsp to see any issues
 vim.lsp.enable 'lua_ls'
 vim.lsp.enable 'zls'
 vim.lsp.enable 'rust'
+
+
 vim.cmd("set completeopt+=noselect") -- Add noselect otherwise annoying.
 vim.o.winborder = 'rounded'
 vim.diagnostic.config({
